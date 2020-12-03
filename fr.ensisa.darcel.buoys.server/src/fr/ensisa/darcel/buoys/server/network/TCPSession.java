@@ -21,6 +21,7 @@ public class TCPSession extends Thread {
 	public TCPSession(Socket connection, Model model) {
 		this.connection = connection;
 		this.model = model;
+		System.out.println("tcp session created");
 	}
 
 	public void close() {
@@ -28,6 +29,7 @@ public class TCPSession extends Thread {
 		try {
 			if (connection != null)
 				connection.close();
+			System.out.println("tcp session closed");
 		} catch (IOException e) {
 		}
 		connection = null;
@@ -35,9 +37,12 @@ public class TCPSession extends Thread {
 
 	public boolean operate() {
 		try {
+			System.out.println("operate...");
 			TCPWriter writer = new TCPWriter(connection.getOutputStream());
 			TCPReader reader = new TCPReader(connection.getInputStream());
+			System.out.println("Pré receive");
 			reader.receive();
+			System.out.println("Post receive");
 			switch (reader.getType()) {
 			case 0:
 				return false; // socket closed
@@ -57,7 +62,7 @@ public class TCPSession extends Thread {
 				return false; // connection jammed
 			// to remove before adding anything
 			// entry added to remove annoying error reported by compiler
-			case 1:
+			//case 1:
 			}
 			writer.send();
 			return true;
@@ -92,6 +97,17 @@ public class TCPSession extends Thread {
 			writer.createCurrentVersion(version);
 		} else
 			writer.createKO();
-
 	}
+
+	public void run() {
+		while (true) {
+			if (! operate())
+				break;
+		}
+		try {
+			if (connection != null) connection.close();
+		} catch (IOException e) {
+		}
+	}
+
 }

@@ -27,13 +27,19 @@ public class TCPWriter extends BasicAbstractWriter {
     {
     	writeInt(Protocol.REPLY_DO_RECEIVE_CURRENT);
     	writeString(v.getNumber());
-    	int size=v.getContent().length;
-    	writeInt(size);
-
-    	for(int i=0;i<size;i++)
-    	{
-    		writeByte(v.getContent()[i]);
+    	byte [] a = v.getContent();
+    	if (a!=null){
+        	int size=a.length;
+        	writeInt(size);
+        	for(int i=0;i<size;i++)
+        	{
+        		writeByte(v.getContent()[i]);
+        	}
     	}
+    	else {
+    		writeInt(0);
+    	}
+
     }
 /*
     public void createSendNew(Version v)

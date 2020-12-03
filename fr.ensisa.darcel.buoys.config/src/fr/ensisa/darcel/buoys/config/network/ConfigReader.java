@@ -25,24 +25,27 @@ public class ConfigReader extends BasicAbstractReader {
 	public void receive() {
 		type = readInt();
 		eraseFields();
-		switch (type) {
-		case Protocol.REPLY_DO_RECEIVE_CURRENT:
-			this.readCurrentVersion();
-			break;
+		switch (type) { //Ne rien mettre dans ce switch svp
 		case Protocol.REPLY_KO:
 			break;
 		}
 	}
 
+	//Méthodes pour lire les Arguments des REPLY
+
 	public Version readCurrentVersion() {
 		String number = readString();
 		int size = readInt();
-		byte[] content = new byte[size];
-
-		for (int i = 0; i < size; i++) {
-			content[i] = readByte();
+		byte[] content;
+		if (size>0){
+			content = new byte[size];
+			for (int i = 0; i < size; i++) {
+				content[i] = readByte();
+			}
 		}
-
-		return new Version(number, content);
+		else {
+			content = null;
+		}
+		return (new Version(number, content));
 	}
 }

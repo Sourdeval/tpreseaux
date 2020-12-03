@@ -29,22 +29,11 @@ public class TCPReader extends BasicAbstractReader {
 	public void receive() {
 		type = readInt ();
 		eraseFields ();
-		switch (type) {
-		case Protocol.REQUEST_DO_RECEIVE_CURRENT:
-			readCurrentVersion();
+		switch (type) {//Ne rien écrire dans ce switch svp
 		case 0 : break;
 		}
 	}
 
-	public Version readCurrentVersion() {
-		String number = readString();
-		int size = readInt();
-		byte[] content = new byte[size];
+	//Méthodes pour lire les Arguments des REQUEST
 
-		for (int i = 0; i < size; i++) {
-			content[i] = readByte();
-		}
-
-		return new Version(number, content);
-	}
 }

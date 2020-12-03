@@ -14,7 +14,8 @@ public class ConfigWriter extends BasicAbstractWriter {
     }
 
 	public void createReceiveCurrentVersion() {
-
+		writeInt(Protocol.REQUEST_DO_RECEIVE_CURRENT);
+		System.out.println("Bonjour");
 	}
 
 	public void createNewVersion(Version version) {
