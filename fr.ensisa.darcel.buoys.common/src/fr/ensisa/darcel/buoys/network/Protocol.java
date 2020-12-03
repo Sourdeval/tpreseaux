@@ -8,6 +8,16 @@ public class Protocol {
     private static final int REQUEST_START				= 1000;
     private static final int REPLY_START				= 2000;
 
+    private static final int REQUEST_DO_RECEIVE_CURRENT			= 1001;
+    private static final int REPLY_DO_RECEIVE_CURRENT				= 2001;
+    private static final int REQUEST_DO_SEND_NEW			= 1002;
+    private static final int REPLY_DO_SEND_NEW				= 2002;
+    private static final int REQUEST_DO_GET_BUOY_LIST			= 1003;
+    private static final int REPLY_DO_GET_BUOY_LIST				= 2003;
+    private static final int REQUEST_DO_GET_BUOY			= 1004;
+    private static final int REPLY_DO_GET_BUOY			= 2004;
+
+
     private static final int COMMON_START				= 000;
     private static final int BUOY_START					= 100;
     private static final int CONFIG_START				= 200;

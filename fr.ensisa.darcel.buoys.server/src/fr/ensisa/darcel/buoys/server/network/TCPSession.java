@@ -34,23 +34,47 @@ public class TCPSession extends Thread {
 	}
 
 	public boolean operate() {
-		try {
-			TCPWriter writer = new TCPWriter (connection.getOutputStream());
-			TCPReader reader = new TCPReader (connection.getInputStream());
-			reader.receive ();
-			switch (reader.getType ()) {
-			case 0 : return false; // socket closed
-			default: return false; // connection jammed
-			// to remove before adding anything
-			// entry added to remove annoying error reported by compiler
-			case 1:
-			}
-			writer.send ();
-			return true;
-		} catch (IOException e) {
-			return false;
-		}
-	}
+        try {
+            TCPWriter writer = new TCPWriter (connection.getOutputStream());
+            TCPReader reader = new TCPReader (connection.getInputStream());
+            reader.receive ();
+            switch (reader.getType ()) {
+            case 0 : return false; // socket closed
+            //case REQUEST_DO_RECEIVE_CURRENT : processREQUEST_DO_RECEIVE_CURRENT (reader, writer); break;
+            //case REQUEST_DO_SEND_NEW : processREQUEST_DO_SEND_NEW (reader, writer); break;
+            //case REQUEST_DO_GET_BUOY_LIST : processREQUEST_DO_GET_BUOY_LIST (reader, writer); break;
+            //case REQUEST_DO_GET_BUOY : processREQUEST_DO_GET_BUOY (reader, writer); break;
+            default: return false; // connection jammed
+            // to remove before adding anything
+            // entry added to remove annoying error reported by compiler
+            case 1:
+            }
+            writer.send ();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    private void processREQUEST_DO_GET_BUOY(TCPReader reader, TCPWriter writer) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void processREQUEST_DO_GET_BUOY_LIST(TCPReader reader, TCPWriter writer) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void processREQUEST_DO_SEND_NEW(TCPReader reader, TCPWriter writer) {
+        // TODO Auto-generated method stub
+
+    }
+
+    private void processREQUEST_DO_RECEIVE_CURRENT(TCPReader reader, TCPWriter writer) {
+        // TODO Auto-generated method stub
+
+    }
 
 	public void run() {
 		while (true) {
