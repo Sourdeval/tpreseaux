@@ -7,6 +7,7 @@ import java.util.List;
 import fr.ensisa.darcel.buoys.config.model.Buoy;
 import fr.ensisa.darcel.buoys.config.model.Version;
 import fr.ensisa.darcel.buoys.network.Protocol;
+import javafx.beans.property.StringProperty;
 
 public class ConfigSession implements ISession {
 
@@ -50,10 +51,17 @@ public class ConfigSession implements ISession {
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
+			if(r.getType() == Protocol.REPLY_DO_RECEIVE_CURRENT)
+			{
+				Version version= r.readCurrentVersion();
+				return version;
+			}
+
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }
-    		return null;
+            return null;
+
         } catch (IOException e) {
     		return null;
         }
@@ -67,6 +75,10 @@ public class ConfigSession implements ISession {
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
+            if(r.getType() == Protocol.REPLY_DO_SEND_NEW)
+            {
+
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
             }
@@ -84,6 +96,10 @@ public class ConfigSession implements ISession {
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
+            if(r.getType() == Protocol.REPLY_DO_GET_BUOY_LIST)
+            {
+
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }
@@ -101,6 +117,10 @@ public class ConfigSession implements ISession {
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
+            if(r.getType() == Protocol.REPLY_DO_GET_BUOY)
+            {
+
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }

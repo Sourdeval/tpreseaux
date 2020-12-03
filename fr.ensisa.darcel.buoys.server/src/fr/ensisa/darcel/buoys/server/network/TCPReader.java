@@ -30,8 +30,21 @@ public class TCPReader extends BasicAbstractReader {
 		type = readInt ();
 		eraseFields ();
 		switch (type) {
+		case Protocol.REQUEST_DO_RECEIVE_CURRENT:
+			readCurrentVersion();
 		case 0 : break;
 		}
 	}
 
+	public Version readCurrentVersion() {
+		String number = readString();
+		int size = readInt();
+		byte[] content = new byte[size];
+
+		for (int i = 0; i < size; i++) {
+			content[i] = readByte();
+		}
+
+		return new Version(number, content);
+	}
 }

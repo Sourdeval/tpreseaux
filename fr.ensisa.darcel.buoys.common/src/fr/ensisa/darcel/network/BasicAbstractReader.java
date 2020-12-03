@@ -81,6 +81,7 @@ public class BasicAbstractReader {
         }
     }
 
+
     public int getType() {
         return type;
     }
