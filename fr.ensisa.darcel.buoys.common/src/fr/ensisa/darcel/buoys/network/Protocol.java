@@ -5,17 +5,17 @@ public class Protocol {
     public static final int BUOYS_UDP_PORT 				= 6666;
     public static final int BUOYS_TCP_PORT				= 7777;
 
-    private static final int REQUEST_START				= 1000;
-    private static final int REPLY_START				= 2000;
+    public static final int REQUEST_START				= 1000;
+    public static final int REPLY_START				= 2000;
 
-    private static final int REQUEST_DO_RECEIVE_CURRENT			= 1001;
-    private static final int REPLY_DO_RECEIVE_CURRENT				= 2001;
-    private static final int REQUEST_DO_SEND_NEW			= 1002;
-    private static final int REPLY_DO_SEND_NEW				= 2002;
-    private static final int REQUEST_DO_GET_BUOY_LIST			= 1003;
-    private static final int REPLY_DO_GET_BUOY_LIST				= 2003;
-    private static final int REQUEST_DO_GET_BUOY			= 1004;
-    private static final int REPLY_DO_GET_BUOY			= 2004;
+    public static final int REQUEST_DO_RECEIVE_CURRENT			= 1001;
+    public static final int REPLY_DO_RECEIVE_CURRENT				= 2001;
+    public static final int REQUEST_DO_SEND_NEW			= 1002;
+    public static final int REPLY_DO_SEND_NEW				= 2002;
+    public static final int REQUEST_DO_GET_BUOY_LIST			= 1003;
+    public static final int REPLY_DO_GET_BUOY_LIST				= 2003;
+    public static final int REQUEST_DO_GET_BUOY			= 1004;
+    public static final int REPLY_DO_GET_BUOY			= 2004;
 
 
     private static final int COMMON_START				= 000;

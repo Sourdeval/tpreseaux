@@ -40,10 +40,10 @@ public class TCPSession extends Thread {
             reader.receive ();
             switch (reader.getType ()) {
             case 0 : return false; // socket closed
-            //case REQUEST_DO_RECEIVE_CURRENT : processREQUEST_DO_RECEIVE_CURRENT (reader, writer); break;
-            //case REQUEST_DO_SEND_NEW : processREQUEST_DO_SEND_NEW (reader, writer); break;
-            //case REQUEST_DO_GET_BUOY_LIST : processREQUEST_DO_GET_BUOY_LIST (reader, writer); break;
-            //case REQUEST_DO_GET_BUOY : processREQUEST_DO_GET_BUOY (reader, writer); break;
+            case Protocol.REQUEST_DO_RECEIVE_CURRENT : processREQUEST_DO_RECEIVE_CURRENT (reader, writer); break;
+            case Protocol.REQUEST_DO_SEND_NEW : processREQUEST_DO_SEND_NEW (reader, writer); break;
+            case Protocol.REQUEST_DO_GET_BUOY_LIST : processREQUEST_DO_GET_BUOY_LIST (reader, writer); break;
+            case Protocol.REQUEST_DO_GET_BUOY : processREQUEST_DO_GET_BUOY (reader, writer); break;
             default: return false; // connection jammed
             // to remove before adding anything
             // entry added to remove annoying error reported by compiler
