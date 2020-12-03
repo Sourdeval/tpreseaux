@@ -8,14 +8,14 @@ public class Protocol {
     private static final int REQUEST_START                = 1000;
     private static final int REPLY_START                = 2000;
 
-    public static final int REQUEST_DO_RECEIVE_CURRENT            = 1001;
-    public static final int REPLY_DO_RECEIVE_CURRENT                = 2001;
-    public static final int REQUEST_DO_SEND_NEW            = 1002;
-    public static final int REPLY_DO_SEND_NEW                = 2002;
-    public static final int REQUEST_DO_GET_BUOY_LIST            = 1003;
-    public static final int REPLY_DO_GET_BUOY_LIST                = 2003;
-    public static final int REQUEST_DO_GET_BUOY            = 1004;
-    public static final int REPLY_DO_GET_BUOY            = 2004;
+    public static final int REQUEST_DO_RECEIVE_CURRENT            = 3001;
+    public static final int REPLY_DO_RECEIVE_CURRENT                = 4001;
+    public static final int REQUEST_DO_SEND_NEW            = 3002;
+    public static final int REPLY_DO_SEND_NEW                = 4002;
+    public static final int REQUEST_DO_GET_BUOY_LIST            = 3003;
+    public static final int REPLY_DO_GET_BUOY_LIST                = 4003;
+    public static final int REQUEST_DO_GET_BUOY            = 3004;
+    public static final int REPLY_DO_GET_BUOY            = 4004;
 
 
     private static final int COMMON_START                = 000;
