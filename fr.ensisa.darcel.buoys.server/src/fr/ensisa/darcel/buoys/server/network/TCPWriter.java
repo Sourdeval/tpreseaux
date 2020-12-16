@@ -109,4 +109,13 @@ public class TCPWriter extends BasicAbstractWriter {
 			}
 		}
 	}
+
+
+
+	public void createReplyDeleteBuoy() {
+
+		writeInt(Protocol.REPLY_DO_DELETE);
+		writeBoolean(true);
+
+	}
 }

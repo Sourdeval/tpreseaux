@@ -17,6 +17,11 @@ public class Protocol {
     public static final int REQUEST_DO_GET_BUOY            = 3004;
     public static final int REPLY_DO_GET_BUOY            = 4004;
 
+    public static final int REQUEST_DO_DELETE            = 3005;
+    public static final int REPLY_DO_DELETE             = 4005;
+
+    public static final int REPLY_OK = 3000;
+
 
     private static final int COMMON_START                = 000;
     private static final int BUOY_START                    = 100;
@@ -25,6 +30,7 @@ public class Protocol {
     private static final int SERVICE_START                = 400;
 
     public static final int REPLY_KO                    = REPLY_START+COMMON_START+2;
+
 
     public static final int UDP_STD1                    = 0x01;
     public static final int UDP_STD2                    = 0x02;

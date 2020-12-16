@@ -172,10 +172,15 @@ public class ConfigSession implements ISession {
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
+
+            if(r.getType() == Protocol.REPLY_DO_DELETE)
+            {
+            	return r.readDeleted();
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
             }
-    		return null;
+    		return true;
         } catch (IOException e) {
     		return null;
         }

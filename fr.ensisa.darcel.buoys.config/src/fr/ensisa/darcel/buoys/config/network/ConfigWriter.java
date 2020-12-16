@@ -42,6 +42,8 @@ public class ConfigWriter extends BasicAbstractWriter {
 	}
 
 	public void createDeleteBuoy(long id) {
+		writeInt(Protocol.REQUEST_DO_DELETE);
+		writeLong(id);
 	}
 
 	public void createCreateBuoy(Buoy buoy) {
