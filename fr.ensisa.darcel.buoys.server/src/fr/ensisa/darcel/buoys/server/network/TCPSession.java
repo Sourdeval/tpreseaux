@@ -72,11 +72,21 @@ public class TCPSession extends Thread {
 	}
 
 	private void processREQUEST_DO_GET_BUOY(TCPReader reader, TCPWriter writer) {
-
+		Buoy buoy = model.getBuoys().getById(reader.receiveLong());
+		if (buoy != null) {
+			writer.createReplyGetBuoy(buoy);
+		} else {
+			writer.createKO();
+		}
 	}
 
 	private void processREQUEST_DO_GET_BUOY_LIST(TCPReader reader, TCPWriter writer) {
-		// TODO Auto-generated method stub
+		Map<Long, Buoy> buoys = model.getBuoys().getBuoys();
+		if (buoys != null) {
+			writer.createReplyGetBuoyList(buoys);
+		} else {
+			writer.createKO();
+		}
 
 	}
 

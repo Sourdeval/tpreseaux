@@ -48,4 +48,15 @@ public class ConfigReader extends BasicAbstractReader {
 		}
 		return (new Version(number, content));
 	}
+
+	public Buoy readBuoy() {
+		Buoy buoy = new Buoy();
+		String version = readString();
+		String who = readString();
+		long id = readLong();
+		buoy.getVersion().set(version);
+		buoy.getWho().set(who);
+		buoy.setId(id);
+		return buoy;
+	}
 }

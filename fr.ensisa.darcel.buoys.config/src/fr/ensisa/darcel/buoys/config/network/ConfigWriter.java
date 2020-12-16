@@ -32,9 +32,13 @@ public class ConfigWriter extends BasicAbstractWriter {
 	}
 
 	public void createGetBuoy(long id) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY);
+		writeLong(id);
 	}
 
 	public void createGetBuoyList(String who) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY_LIST);
+		writeString(who);
 	}
 
 	public void createDeleteBuoy(long id) {

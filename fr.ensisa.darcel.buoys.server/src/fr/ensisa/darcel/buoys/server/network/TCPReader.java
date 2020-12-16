@@ -33,7 +33,10 @@ public class TCPReader extends BasicAbstractReader {
 		case 0 : break;
 		}
 	}
-
+	public long receiveLong() {
+		long l = readLong();
+		return l;
+	}
 	public Version readDoSendNew() {
 		String n = readString();
 		int size = readInt();

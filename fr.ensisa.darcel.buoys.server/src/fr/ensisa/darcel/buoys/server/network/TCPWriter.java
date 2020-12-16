@@ -2,6 +2,7 @@ package fr.ensisa.darcel.buoys.server.network;
 
 import java.io.OutputStream;
 import java.util.Collection;
+import java.util.Map;
 
 import fr.ensisa.darcel.buoys.network.Protocol;
 import fr.ensisa.darcel.buoys.server.model.Battery;
@@ -41,22 +42,22 @@ public class TCPWriter extends BasicAbstractWriter {
     	}
 
     }
-/*
-    public void createSendNew(Version v)
-    {
-    	writeInt(Protocol.REPLY_DO_RECEIVE_CURRENT);
-    	writeString(v.getNumber());
-    	int size=v.getContent().length;
-    	writeInt(size);
 
-    	for(int i=0;i<size;i++)
-    	{
-    		writeByte(v.getContent()[i]);
-    	}
-    }
-*/
 
 	public void createReplyDoSendNew() {
 		writeInt(Protocol.REPLY_DO_SEND_NEW);
+	}
+
+	public void createReplyGetBuoy(Buoy buoy) {
+
+		writeInt(Protocol.REPLY_DO_GET_BUOY);
+		writeString(buoy.getVersion());
+		writeString(buoy.getWho());
+		writeLong(buoy.getId());
+
+	}
+
+	public void createReplyGetBuoyList(Map<Long, Buoy> buoys) {
+		writeInt(Protocol.REPLY_DO_GET_BUOY_LIST);
 	}
 }
