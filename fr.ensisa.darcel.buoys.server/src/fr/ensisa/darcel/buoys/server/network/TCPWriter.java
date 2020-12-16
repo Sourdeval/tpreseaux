@@ -23,6 +23,10 @@ public class TCPWriter extends BasicAbstractWriter {
     public void createKO() {
         writeInt(Protocol.REPLY_KO);
     }
+    public void createOK(){
+    	System.out.println("tcpwriterOK");
+    	writeInt(Protocol.REPLY_OK);
+    }
 
     public void createCurrentVersion(Version v)
     {
@@ -117,5 +121,12 @@ public class TCPWriter extends BasicAbstractWriter {
 		writeInt(Protocol.REPLY_DO_DELETE);
 		writeBoolean(true);
 
+	}
+
+
+	public void createReplyCreateBuoy() {
+		System.out.println("tcpwriter");
+		writeInt(Protocol.REPLY_DO_CREATE_BUOY);
+		writeLong(1);
 	}
 }

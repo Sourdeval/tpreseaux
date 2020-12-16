@@ -119,4 +119,8 @@ public class ConfigReader extends BasicAbstractReader {
 	public Boolean readDeleted() {
 		return readBoolean();
 	}
+	public long readCreated(){
+		System.out.println("configreader");
+		return readLong();
+	}
 }

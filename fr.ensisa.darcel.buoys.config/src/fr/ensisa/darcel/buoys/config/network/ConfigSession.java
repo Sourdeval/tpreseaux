@@ -138,6 +138,14 @@ public class ConfigSession implements ISession {
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
+            System.out.println("configsession");
+            /*
+            if(r.getType() == Protocol.REPLY_DO_CREATE_BUOY)
+            {
+            	System.out.println("configsession");
+            	return r.readCreated();
+
+            }*/
             if (r.getType() == Protocol.REPLY_KO) {
                 return new Long(-1);
             }

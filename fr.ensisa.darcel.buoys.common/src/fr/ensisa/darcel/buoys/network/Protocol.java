@@ -20,6 +20,9 @@ public class Protocol {
     public static final int REQUEST_DO_DELETE            = 3005;
     public static final int REPLY_DO_DELETE             = 4005;
 
+    public static final int REQUEST_DO_CREATE_BUOY = 3006;
+    public static final int REPLY_DO_CREATE_BUOY = 4006;
+
     public static final int REPLY_OK = 3000;
 
 
@@ -35,5 +38,6 @@ public class Protocol {
     public static final int UDP_STD1                    = 0x01;
     public static final int UDP_STD2                    = 0x02;
     public static final int UDP_SERVICE                    = 0x03;
+
 
 }

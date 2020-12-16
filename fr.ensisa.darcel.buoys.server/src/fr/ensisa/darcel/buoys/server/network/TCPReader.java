@@ -51,6 +51,15 @@ public class TCPReader extends BasicAbstractReader {
 		String s = readString();
 		return s;
 	}
+	public int receiveInt(){
+		int i = readInt();
+		return i;
+	}
+
+	public boolean receiveBoolean() {
+		boolean b = readBoolean();
+		return b;
+	}
 
 	//Méthodes pour lire les Arguments des REQUEST
 

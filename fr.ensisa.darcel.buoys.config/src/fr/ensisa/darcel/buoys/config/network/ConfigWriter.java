@@ -47,6 +47,45 @@ public class ConfigWriter extends BasicAbstractWriter {
 	}
 
 	public void createCreateBuoy(Buoy buoy) {
+		System.out.println("configwriter");
+
+		writeInt(Protocol.REQUEST_DO_CREATE_BUOY);
+		if (buoy.getVersion().getValue() != null)
+			writeString(buoy.getVersion().getValue());
+		else
+			writeString("null");
+		writeString(buoy.getWho().getValue());
+		writeLong(buoy.getId().getValue());
+		switch (buoy.getUsage().getValue()) {
+		case UNUSED:
+			writeInt(1);
+			break;
+		case READY:
+			writeInt(2);
+			break;
+		case WORKING:
+			writeInt(3);
+			break;
+		case BACK:
+			writeInt(4);
+			break;
+		default:
+			writeInt(0);
+			break;
+		}
+
+		writeBoolean(buoy.getSensors().getSensor3DAcceleration().getValue());
+
+		writeBoolean(buoy.getSensors().getSensor3DRotation().getValue());
+
+		writeBoolean(buoy.getSensors().getSensorBottom().getValue());
+
+		writeBoolean(buoy.getSensors().getSensorNorth().getValue());
+
+		writeBoolean(buoy.getSensors().getSensorTop().getValue());
+
+		writeBoolean(buoy.getSensors().getSensorTelemetry().getValue());
+
 	}
 
 	public void createUpdateBuoy(Buoy buoy) {

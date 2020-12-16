@@ -12,6 +12,8 @@ import fr.ensisa.darcel.buoys.server.model.Buoy;
 import fr.ensisa.darcel.buoys.server.model.BuoyData;
 import fr.ensisa.darcel.buoys.server.model.Buoys;
 import fr.ensisa.darcel.buoys.server.model.Model;
+import fr.ensisa.darcel.buoys.server.model.Sensors;
+import fr.ensisa.darcel.buoys.server.model.Usage;
 import fr.ensisa.darcel.buoys.server.model.Version;
 
 public class TCPSession extends Thread {
@@ -62,6 +64,9 @@ public class TCPSession extends Thread {
 			case Protocol.REQUEST_DO_DELETE:
 				processREQUEST_DO_DELETE(reader,writer);
 				break;
+			case Protocol.REQUEST_DO_CREATE_BUOY:
+				processREQUEST_DO_CREATE_BUOY(reader,writer);
+				break;
 			default:
 				return false; // connection jammed
 			// to remove before adding anything
@@ -75,6 +80,58 @@ public class TCPSession extends Thread {
 		}
 	}
 
+
+	private void processREQUEST_DO_CREATE_BUOY(TCPReader reader, TCPWriter writer) {
+		System.out.println("tcp-session");
+		Buoy buoy = new Buoy();
+		String version = reader.receiveString();
+		System.out.println("version : "+version);
+		String who = reader.receiveString();
+		System.out.println("who : "+who);
+		long id = reader.receiveLong();
+		System.out.println("id : "+id);
+		buoy.setVersion(version);
+		buoy.setWho(who);
+		buoy.setId(id);
+
+		switch (reader.receiveInt()) {
+		case 1:
+			buoy.setUsage(Usage.UNUSED);
+			break;
+		case 2:
+			buoy.setUsage(Usage.READY);
+			break;
+		case 3:
+			buoy.setUsage(Usage.WORKING);
+			break;
+		case 4:
+			buoy.setUsage(Usage.BACK);
+			break;
+		default:
+			break;
+		}
+		//System.out.println("usage : "+reader.receiveInt());
+		System.out.println(buoy.toString());
+		Sensors sensors = new Sensors();
+
+		//System.out.println("3daccel : "+reader.receiveBoolean());
+		sensors.setSensor3DAcceleration(reader.receiveBoolean());
+		sensors.setSensor3DRotation(reader.receiveBoolean());
+		sensors.setSensorBottom(reader.receiveBoolean());
+		sensors.setSensorNorth(reader.receiveBoolean());
+		sensors.setSensorTop(reader.receiveBoolean());
+		sensors.setSensorTelemetry(reader.receiveBoolean());
+		System.out.print(sensors.isSensor3DAcceleration());
+		buoy.setSensors(sensors);
+		System.out.println(buoy.getSensors().isSensor3DAcceleration());
+		model.getBuoys().add(buoy);
+		if (model.getBuoys().getById(buoy.getId())!=null) {
+			writer.createOK();
+		} else {
+			writer.createKO();
+		}
+
+	}
 
 	private void processREQUEST_DO_DELETE(TCPReader reader, TCPWriter writer) {
 		Buoy buoy = model.getBuoys().getById(reader.receiveLong());
