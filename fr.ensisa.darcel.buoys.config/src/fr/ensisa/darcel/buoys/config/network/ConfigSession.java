@@ -75,7 +75,7 @@ public class ConfigSession implements ISession {
             r.receive();
             if(r.getType() == Protocol.REPLY_DO_SEND_NEW)
             {
-
+            	return true;
             }
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;

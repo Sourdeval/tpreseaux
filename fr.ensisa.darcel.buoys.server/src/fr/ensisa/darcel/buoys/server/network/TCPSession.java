@@ -81,18 +81,16 @@ public class TCPSession extends Thread {
 	}
 
 	private void processREQUEST_DO_SEND_NEW(TCPReader reader, TCPWriter writer) {
-		/*Version version
-
-		if (version != null) {
-			writer.createNewVersion(version);
-		} else
+		model.setLastVersion(reader.readDoSendNew());
+		if (model.getLastVersion() != null) {
+			writer.createReplyDoSendNew();
+		} else {
 			writer.createKO();
-*/
+		}
 	}
 
 	private void processREQUEST_DO_RECEIVE_CURRENT(TCPReader reader, TCPWriter writer) {
 		Version version = model.getLastVersion();
-
 		if (version != null) {
 			writer.createCurrentVersion(version);
 		} else

@@ -55,4 +55,8 @@ public class TCPWriter extends BasicAbstractWriter {
     	}
     }
 */
+
+	public void createReplyDoSendNew() {
+		writeInt(Protocol.REPLY_DO_SEND_NEW);
+	}
 }

@@ -15,10 +15,20 @@ public class ConfigWriter extends BasicAbstractWriter {
 
 	public void createReceiveCurrentVersion() {
 		writeInt(Protocol.REQUEST_DO_RECEIVE_CURRENT);
-		System.out.println("Bonjour");
 	}
 
 	public void createNewVersion(Version version) {
+		writeInt(Protocol.REQUEST_DO_SEND_NEW);
+		writeString(version.getNumber().getValue());
+		byte [] a = version.getContent().toString().getBytes();
+    	if (a!=null){
+        	int size=a.length;
+        	writeInt(size);
+        	for(int i=0;i<size;i++)
+        	{
+        		writeByte(a[i]);
+        	}
+    	}
 	}
 
 	public void createGetBuoy(long id) {

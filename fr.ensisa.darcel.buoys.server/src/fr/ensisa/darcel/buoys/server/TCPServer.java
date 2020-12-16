@@ -21,10 +21,7 @@ public class TCPServer extends Thread {
 		try {
 			server = new ServerSocket (Protocol.BUOYS_TCP_PORT);
 			while (true) {
-
-				System.out.println("Hello #1");
 				Socket connection = server.accept();
-				System.out.println("Hello #2");
 				TCPSession session = new TCPSession (connection, model);
 				session.start();
 			}

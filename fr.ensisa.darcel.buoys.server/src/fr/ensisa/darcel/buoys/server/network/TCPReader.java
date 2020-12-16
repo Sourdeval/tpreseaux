@@ -34,6 +34,16 @@ public class TCPReader extends BasicAbstractReader {
 		}
 	}
 
+	public Version readDoSendNew() {
+		String n = readString();
+		int size = readInt();
+		byte[] a = new byte[size];
+		for (int i=0; i < size; i++){
+			a[i] = readByte();
+		}
+		return new Version(n,a);
+	}
+
 	//Méthodes pour lire les Arguments des REQUEST
 
 }
