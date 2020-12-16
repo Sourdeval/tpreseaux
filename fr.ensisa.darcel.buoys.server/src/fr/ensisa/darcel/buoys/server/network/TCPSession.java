@@ -61,6 +61,7 @@ public class TCPSession extends Thread {
 				break;
 			case Protocol.REQUEST_DO_DELETE:
 				processREQUEST_DO_DELETE(reader,writer);
+				break;
 			default:
 				return false; // connection jammed
 			// to remove before adding anything
@@ -78,7 +79,6 @@ public class TCPSession extends Thread {
 	private void processREQUEST_DO_DELETE(TCPReader reader, TCPWriter writer) {
 		Buoy buoy = model.getBuoys().getById(reader.receiveLong());
 		if (model.getBuoys().remove(buoy.getId())) {
-			System.out.println("Supprimé?"+ model.getBuoys().getById(buoy.getId()));
 			writer.createReplyDeleteBuoy();
 		} else {
 			writer.createKO();

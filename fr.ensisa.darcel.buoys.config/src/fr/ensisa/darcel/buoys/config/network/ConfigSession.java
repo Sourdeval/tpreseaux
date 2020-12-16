@@ -180,7 +180,8 @@ public class ConfigSession implements ISession {
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
             }
-    		return true;
+
+    		return null;
         } catch (IOException e) {
     		return null;
         }
