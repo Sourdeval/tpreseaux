@@ -51,7 +51,11 @@ public class TCPWriter extends BasicAbstractWriter {
 	public void createReplyGetBuoy(Buoy buoy) {
 
 		writeInt(Protocol.REPLY_DO_GET_BUOY);
-		writeString(buoy.getVersion());
+		System.out.println(buoy.getVersion());
+		if (buoy.getVersion() != null)
+			writeString(buoy.getVersion());
+		else
+			writeString("null");
 		writeString(buoy.getWho());
 		writeLong(buoy.getId());
 

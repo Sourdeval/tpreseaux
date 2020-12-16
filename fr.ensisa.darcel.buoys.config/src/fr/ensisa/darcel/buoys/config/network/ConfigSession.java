@@ -118,8 +118,8 @@ public class ConfigSession implements ISession {
             r.receive();
             if(r.getType() == Protocol.REPLY_DO_GET_BUOY)
             {
-            	r.readBuoy();
-            	System.out.println();
+            	return r.readBuoy();
+
             }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
