@@ -23,7 +23,7 @@ public class TCPServer extends Thread {
 			while (true) {
 				Socket connection = server.accept();
 				TCPSession session = new TCPSession (connection, model);
-				session.start();
+				session.start ();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
