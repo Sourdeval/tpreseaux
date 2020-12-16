@@ -59,5 +59,28 @@ public class TCPWriter extends BasicAbstractWriter {
 
 	public void createReplyGetBuoyList(Map<Long, Buoy> buoys) {
 		writeInt(Protocol.REPLY_DO_GET_BUOY_LIST);
+		writeInt(buoys.size());
+		for (Map.Entry<Long, Buoy> entry : buoys.entrySet())
+		{
+			writeLong(entry.getValue().getId());
+			writeString(entry.getValue().getWho());
+			switch (entry.getValue().getUsage()) {
+			case UNUSED:
+				writeInt(1);
+				break;
+			case READY:
+				writeInt(2);
+				break;
+			case WORKING:
+				writeInt(3);
+				break;
+			case BACK:
+				writeInt(4);
+				break;
+			default:
+				writeInt(0);
+				break;
+			}
+		}
 	}
 }

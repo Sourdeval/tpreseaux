@@ -3,6 +3,7 @@ package fr.ensisa.darcel.buoys.server.network;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,12 +83,23 @@ public class TCPSession extends Thread {
 
 	private void processREQUEST_DO_GET_BUOY_LIST(TCPReader reader, TCPWriter writer) {
 		Map<Long, Buoy> buoys = model.getBuoys().getBuoys();
-		if (buoys != null) {
-			writer.createReplyGetBuoyList(buoys);
+		String who = reader.receiveString();
+		System.out.println(who);
+		Map<Long,Buoy> newBuoysList = new HashMap<Long,Buoy>();
+		for (Map.Entry<Long, Buoy> entry : buoys.entrySet())
+		{
+			if(entry.getValue().getWho().equals(who) )
+			{
+				newBuoysList.put(entry.getKey(), entry.getValue());
+				/*System.out.println("Key = " + entry.getKey() +
+                        ", Value = " + entry.getValue().getWho());*/
+			}
+		}
+		if (!(newBuoysList.isEmpty())) {
+			writer.createReplyGetBuoyList(newBuoysList);
 		} else {
 			writer.createKO();
 		}
-
 	}
 
 	private void processREQUEST_DO_SEND_NEW(TCPReader reader, TCPWriter writer) {

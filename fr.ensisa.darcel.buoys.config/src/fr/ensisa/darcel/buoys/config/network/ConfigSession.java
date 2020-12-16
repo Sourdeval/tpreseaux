@@ -97,6 +97,7 @@ public class ConfigSession implements ISession {
             if(r.getType() == Protocol.REPLY_DO_GET_BUOY_LIST)
             {
 
+            	return r.readBuoyList();
             }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;

@@ -59,4 +59,36 @@ public class ConfigReader extends BasicAbstractReader {
 		buoy.setId(id);
 		return buoy;
 	}
+
+	public List<Buoy> readBuoyList() {
+		List<Buoy> buoys = new ArrayList<Buoy>();
+		int size = readInt();
+		for (int i = 0; i<size;i++)
+		{
+			Buoy buoy = new Buoy();
+			buoy.getId().set(readLong());
+			buoy.getWho().set(readString());
+			switch (readInt()) {
+			case 1:
+				buoy.getUsage().set(Usage.UNUSED);
+				break;
+			case 2:
+				buoy.getUsage().set(Usage.READY);
+				break;
+			case 3:
+				buoy.getUsage().set(Usage.WORKING);
+				break;
+			case 4:
+				buoy.getUsage().set(Usage.BACK);
+				break;
+			default:
+				break;
+			}
+			buoys.add(buoy);
+		}
+
+		return buoys;
+
+
+	}
 }
