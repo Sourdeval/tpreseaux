@@ -58,7 +58,29 @@ public class TCPWriter extends BasicAbstractWriter {
 			writeString("null");
 		writeString(buoy.getWho());
 		writeLong(buoy.getId());
-
+		switch (buoy.getUsage()) {
+		case UNUSED:
+			writeInt(1);
+			break;
+		case READY:
+			writeInt(2);
+			break;
+		case WORKING:
+			writeInt(3);
+			break;
+		case BACK:
+			writeInt(4);
+			break;
+		default:
+			writeInt(0);
+			break;
+		}
+		writeBoolean(buoy.getSensors().isSensor3DAcceleration());
+		writeBoolean(buoy.getSensors().isSensor3DRotation());
+		writeBoolean(buoy.getSensors().isSensorBottom());
+		writeBoolean(buoy.getSensors().isSensorNorth());
+		writeBoolean(buoy.getSensors().isSensorTop());
+		writeBoolean(buoy.getSensors().isSensorTelemetry());
 	}
 
 	public void createReplyGetBuoyList(Map<Long, Buoy> buoys) {

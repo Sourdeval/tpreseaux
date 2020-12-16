@@ -57,6 +57,30 @@ public class ConfigReader extends BasicAbstractReader {
 		buoy.getVersion().set(version);
 		buoy.getWho().set(who);
 		buoy.setId(id);
+
+		switch (readInt()) {
+		case 1:
+			buoy.getUsage().set(Usage.UNUSED);
+			break;
+		case 2:
+			buoy.getUsage().set(Usage.READY);
+			break;
+		case 3:
+			buoy.getUsage().set(Usage.WORKING);
+			break;
+		case 4:
+			buoy.getUsage().set(Usage.BACK);
+			break;
+		default:
+			break;
+		}
+		buoy.getSensors().getSensor3DAcceleration().set(readBoolean());
+		buoy.getSensors().getSensor3DRotation().set(readBoolean());
+		buoy.getSensors().getSensorBottom().set(readBoolean());
+		buoy.getSensors().getSensorNorth().set(readBoolean());
+		buoy.getSensors().getSensorTop().set(readBoolean());
+		buoy.getSensors().getSensorTelemetry().set(readBoolean());
+
 		return buoy;
 	}
 

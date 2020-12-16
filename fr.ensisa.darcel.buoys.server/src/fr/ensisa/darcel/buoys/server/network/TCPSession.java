@@ -86,15 +86,27 @@ public class TCPSession extends Thread {
 		String who = reader.receiveString();
 		System.out.println(who);
 		Map<Long,Buoy> newBuoysList = new HashMap<Long,Buoy>();
-		for (Map.Entry<Long, Buoy> entry : buoys.entrySet())
+		if (who.isEmpty())
 		{
-			if(entry.getValue().getWho().equals(who) )
+			for (Map.Entry<Long, Buoy> entry : buoys.entrySet())
 			{
 				newBuoysList.put(entry.getKey(), entry.getValue());
-				/*System.out.println("Key = " + entry.getKey() +
-                        ", Value = " + entry.getValue().getWho());*/
+					/*System.out.println("Key = " + entry.getKey() +
+	                        ", Value = " + entry.getValue().getWho());*/
 			}
 		}
+		else{
+			for (Map.Entry<Long, Buoy> entry : buoys.entrySet())
+			{
+				if(entry.getValue().getWho().equals(who) )
+				{
+					newBuoysList.put(entry.getKey(), entry.getValue());
+					/*System.out.println("Key = " + entry.getKey() +
+	                        ", Value = " + entry.getValue().getWho());*/
+				}
+			}
+		}
+
 		if (!(newBuoysList.isEmpty())) {
 			writer.createReplyGetBuoyList(newBuoysList);
 		} else {
