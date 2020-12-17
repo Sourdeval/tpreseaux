@@ -47,8 +47,6 @@ public class ConfigWriter extends BasicAbstractWriter {
 	}
 
 	public void createCreateBuoy(Buoy buoy) {
-		System.out.println("createBuoy");
-
 		writeInt(Protocol.REQUEST_DO_CREATE_BUOY);
 		if (buoy.getVersion().getValue() != null)
 			writeString(buoy.getVersion().getValue());

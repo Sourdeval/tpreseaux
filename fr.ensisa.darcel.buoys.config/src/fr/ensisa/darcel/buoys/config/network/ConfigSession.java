@@ -138,11 +138,8 @@ public class ConfigSession implements ISession {
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
-            System.out.println("configsession_doCreatebuoy");
-
             if(r.getType() == Protocol.REPLY_DO_CREATE_BUOY)
             {
-            	System.out.println("configsession");
             	return r.readCreated();
 
             }
@@ -163,7 +160,9 @@ public class ConfigSession implements ISession {
             w.send();
             ConfigReader r = new ConfigReader(tcp.getInputStream());
             r.receive();
-            System.out.println("configsession_doUpdatebuoy");
+            if (r.getType() == Protocol.REPLY_OK) {
+                return true;
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return false;
             }

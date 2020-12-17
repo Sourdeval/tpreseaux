@@ -24,7 +24,6 @@ public class TCPWriter extends BasicAbstractWriter {
         writeInt(Protocol.REPLY_KO);
     }
     public void createOK(){
-    	System.out.println("tcpwriterOK");
     	writeInt(Protocol.REPLY_OK);
     }
 
@@ -53,9 +52,7 @@ public class TCPWriter extends BasicAbstractWriter {
 	}
 
 	public void createReplyGetBuoy(Buoy buoy,int datacount) {
-		System.out.println("replyGetBuoy");
 		writeInt(Protocol.REPLY_DO_GET_BUOY);
-		System.out.println(buoy.getVersion());
 		if (buoy.getVersion() != null)
 			writeString(buoy.getVersion());
 		else
@@ -126,7 +123,6 @@ public class TCPWriter extends BasicAbstractWriter {
 
 
 	public void createReplyCreateBuoy(long id) {
-		System.out.println("tcpwriter");
 		writeInt(Protocol.REPLY_DO_CREATE_BUOY);
 		writeLong(id);
 	}

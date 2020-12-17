@@ -43,9 +43,7 @@ public class TCPSession extends Thread {
 			System.out.println("operate...");
 			TCPWriter writer = new TCPWriter(connection.getOutputStream());
 			TCPReader reader = new TCPReader(connection.getInputStream());
-			System.out.println("Pré receive");
 			reader.receive();
-			System.out.println("Post receive");
 			switch (reader.getType()) {
 			case 0:
 				return false; // socket closed
@@ -99,13 +97,9 @@ public class TCPSession extends Thread {
 	}
 
 	private void processREQUEST_DO_UPDATE_BUOY(TCPReader reader, TCPWriter writer) {
-		System.out.println("process_request_do_update_buoy");
 		String version = reader.receiveString();
-		System.out.println("version : "+version);
 		String who = reader.receiveString();
-		System.out.println("who : "+who);
 		long id = reader.receiveLong();
-		System.out.println("id : "+id);
 		Buoy buoy = model.getBuoys().getById(id);
 		buoy.setVersion(version);
 		buoy.setWho(who);
@@ -145,14 +139,10 @@ public class TCPSession extends Thread {
 	}
 
 	private void processREQUEST_DO_CREATE_BUOY(TCPReader reader, TCPWriter writer) {
-		System.out.println("process_request_do_create_buoy");
 		Buoy buoy = new Buoy();
 		String version = reader.receiveString();
-		System.out.println("version : "+version);
 		String who = reader.receiveString();
-		System.out.println("who : "+who);
 		long id = reader.receiveLong();
-		System.out.println("id : "+id);
 		buoy.setVersion(version);
 		buoy.setWho(who);
 		buoy.setId(id);
@@ -173,20 +163,14 @@ public class TCPSession extends Thread {
 		default:
 			break;
 		}
-		//System.out.println("usage : "+reader.receiveInt());
-		System.out.println(buoy.toString());
 		Sensors sensors = new Sensors();
-
-		//System.out.println("3daccel : "+reader.receiveBoolean());
 		sensors.setSensor3DAcceleration(reader.receiveBoolean());
 		sensors.setSensor3DRotation(reader.receiveBoolean());
 		sensors.setSensorBottom(reader.receiveBoolean());
 		sensors.setSensorNorth(reader.receiveBoolean());
 		sensors.setSensorTop(reader.receiveBoolean());
 		sensors.setSensorTelemetry(reader.receiveBoolean());
-		System.out.print(sensors.isSensor3DAcceleration());
 		buoy.setSensors(sensors);
-		System.out.println(buoy.getSensors().isSensor3DAcceleration());
 		model.getBuoys().add(buoy);
 		if (model.getBuoys().getById(buoy.getId())!=null) {
 			writer.createReplyCreateBuoy(buoy.getId());
@@ -223,7 +207,6 @@ public class TCPSession extends Thread {
 	private void processREQUEST_DO_GET_BUOY_LIST(TCPReader reader, TCPWriter writer) {
 		Map<Long, Buoy> buoys = model.getBuoys().getBuoys();
 		String who = reader.receiveString();
-		System.out.println(who);
 		Map<Long,Buoy> newBuoysList = new HashMap<Long,Buoy>();
 		if (who.isEmpty())
 		{

@@ -120,7 +120,6 @@ public class ConfigReader extends BasicAbstractReader {
 		return readBoolean();
 	}
 	public long readCreated(){
-		System.out.println("configreader");
 		return readLong();
 	}
 }
