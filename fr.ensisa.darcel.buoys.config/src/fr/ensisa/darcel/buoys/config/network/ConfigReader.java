@@ -80,7 +80,7 @@ public class ConfigReader extends BasicAbstractReader {
 		buoy.getSensors().getSensorNorth().set(readBoolean());
 		buoy.getSensors().getSensorTop().set(readBoolean());
 		buoy.getSensors().getSensorTelemetry().set(readBoolean());
-
+		buoy.getDataCount().set(readInt());
 		return buoy;
 	}
 

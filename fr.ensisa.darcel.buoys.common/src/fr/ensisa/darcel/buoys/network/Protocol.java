@@ -23,6 +23,11 @@ public class Protocol {
     public static final int REQUEST_DO_CREATE_BUOY = 3006;
     public static final int REPLY_DO_CREATE_BUOY = 4006;
 
+    public static final int REQUEST_DO_UPDATE_BUOY = 3007;
+    public static final int REPLY_DO_UPDATE_BUOY = 4007;
+
+    public static final int REQUEST_DO_CLEAR_DATA = 3008;
+    public static final int REPLY_DO_CLEAR_DATA = 4008;
     public static final int REPLY_OK = 3000;
 
 

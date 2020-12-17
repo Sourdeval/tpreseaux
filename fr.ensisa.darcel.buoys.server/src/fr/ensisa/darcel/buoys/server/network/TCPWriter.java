@@ -52,8 +52,8 @@ public class TCPWriter extends BasicAbstractWriter {
 		writeInt(Protocol.REPLY_DO_SEND_NEW);
 	}
 
-	public void createReplyGetBuoy(Buoy buoy) {
-
+	public void createReplyGetBuoy(Buoy buoy,int datacount) {
+		System.out.println("replyGetBuoy");
 		writeInt(Protocol.REPLY_DO_GET_BUOY);
 		System.out.println(buoy.getVersion());
 		if (buoy.getVersion() != null)
@@ -85,6 +85,7 @@ public class TCPWriter extends BasicAbstractWriter {
 		writeBoolean(buoy.getSensors().isSensorNorth());
 		writeBoolean(buoy.getSensors().isSensorTop());
 		writeBoolean(buoy.getSensors().isSensorTelemetry());
+		writeInt(datacount);
 	}
 
 	public void createReplyGetBuoyList(Map<Long, Buoy> buoys) {
@@ -124,9 +125,9 @@ public class TCPWriter extends BasicAbstractWriter {
 	}
 
 
-	public void createReplyCreateBuoy() {
+	public void createReplyCreateBuoy(long id) {
 		System.out.println("tcpwriter");
 		writeInt(Protocol.REPLY_DO_CREATE_BUOY);
-		writeLong(1);
+		writeLong(id);
 	}
 }

@@ -67,6 +67,12 @@ public class TCPSession extends Thread {
 			case Protocol.REQUEST_DO_CREATE_BUOY:
 				processREQUEST_DO_CREATE_BUOY(reader,writer);
 				break;
+			case Protocol.REQUEST_DO_UPDATE_BUOY:
+				processREQUEST_DO_UPDATE_BUOY(reader,writer);
+				break;
+			case Protocol.REQUEST_DO_CLEAR_DATA:
+				processREQUEST_DO_CLEAR_DATA(reader,writer);
+				break;
 			default:
 				return false; // connection jammed
 			// to remove before adding anything
@@ -80,9 +86,66 @@ public class TCPSession extends Thread {
 		}
 	}
 
+	private void processREQUEST_DO_CLEAR_DATA(TCPReader reader, TCPWriter writer) {
+		 long id = reader.receiveLong();
+		 if(model.getBuoyDataTable().clear(id))
+		 {
+			 writer.createOK();
+		 }
+		 else
+		 {
+			writer.createKO();
+		 }
+	}
+
+	private void processREQUEST_DO_UPDATE_BUOY(TCPReader reader, TCPWriter writer) {
+		System.out.println("process_request_do_update_buoy");
+		String version = reader.receiveString();
+		System.out.println("version : "+version);
+		String who = reader.receiveString();
+		System.out.println("who : "+who);
+		long id = reader.receiveLong();
+		System.out.println("id : "+id);
+		Buoy buoy = model.getBuoys().getById(id);
+		buoy.setVersion(version);
+		buoy.setWho(who);
+		buoy.setId(id);
+
+		switch (reader.receiveInt()) {
+		case 1:
+			buoy.setUsage(Usage.UNUSED);
+			break;
+		case 2:
+			buoy.setUsage(Usage.READY);
+			break;
+		case 3:
+			buoy.setUsage(Usage.WORKING);
+			break;
+		case 4:
+			buoy.setUsage(Usage.BACK);
+			break;
+		default:
+			break;
+		}
+		Sensors sensors = new Sensors();
+		sensors.setSensor3DAcceleration(reader.receiveBoolean());
+		sensors.setSensor3DRotation(reader.receiveBoolean());
+		sensors.setSensorBottom(reader.receiveBoolean());
+		sensors.setSensorNorth(reader.receiveBoolean());
+		sensors.setSensorTop(reader.receiveBoolean());
+		sensors.setSensorTelemetry(reader.receiveBoolean());
+		buoy.setSensors(sensors);
+
+		if (model.getBuoys().getById(buoy.getId())!=null) {
+			writer.createOK();
+		} else {
+			writer.createKO();
+		}
+
+	}
 
 	private void processREQUEST_DO_CREATE_BUOY(TCPReader reader, TCPWriter writer) {
-		System.out.println("tcp-session");
+		System.out.println("process_request_do_create_buoy");
 		Buoy buoy = new Buoy();
 		String version = reader.receiveString();
 		System.out.println("version : "+version);
@@ -126,7 +189,7 @@ public class TCPSession extends Thread {
 		System.out.println(buoy.getSensors().isSensor3DAcceleration());
 		model.getBuoys().add(buoy);
 		if (model.getBuoys().getById(buoy.getId())!=null) {
-			writer.createOK();
+			writer.createReplyCreateBuoy(buoy.getId());
 		} else {
 			writer.createKO();
 		}
@@ -144,11 +207,17 @@ public class TCPSession extends Thread {
 
 	private void processREQUEST_DO_GET_BUOY(TCPReader reader, TCPWriter writer) {
 		Buoy buoy = model.getBuoys().getById(reader.receiveLong());
+		int datacount;
+		if (model.getBuoyDataTable().getById(buoy.getId())==null)
+			datacount=0;
+		else
+			datacount = model.getBuoyDataTable().getById(buoy.getId()).size();
 		if (buoy != null) {
-			writer.createReplyGetBuoy(buoy);
+			writer.createReplyGetBuoy(buoy,datacount);
 		} else {
 			writer.createKO();
 		}
+
 	}
 
 	private void processREQUEST_DO_GET_BUOY_LIST(TCPReader reader, TCPWriter writer) {
