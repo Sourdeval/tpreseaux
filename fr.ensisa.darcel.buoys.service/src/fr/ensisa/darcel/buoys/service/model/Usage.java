@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package fr.ensisa.darcel.buoys.service.model;
 
 public enum Usage {
@@ -8,14 +7,3 @@ public enum Usage {
 	BACK,
 
 }
-=======
-package fr.ensisa.darcel.buoys.service.model;
-
-public enum Usage {
-	UNUSED,
-	READY,
-	WORKING,
-	BACK,
-
-}
->>>>>>> branch 'master' of https://github.com/Sourdeval/tpreseaux
