@@ -126,4 +126,36 @@ public class TCPWriter extends BasicAbstractWriter {
 		writeInt(Protocol.REPLY_DO_CREATE_BUOY);
 		writeLong(id);
 	}
+
+	public void createGetLastTick(BuoyData tick) {
+		writeInt(Protocol.REPLY_DO_GET_BUOY_LAST_TICK);
+		writeLong(tick.getDate().getTime());
+
+
+		writeFloat(tick.getLocation().getLongitude());
+		writeFloat(tick.getLocation().getLatitude());
+		writeFloat(tick.getLocation().getAltitude());
+		writeInt(tick.getState().getState());
+		writeInt(tick.getState().getDetail());
+		switch (tick.getBattery().getPlug()) {
+		case DISCONNECTED:
+			writeInt(1);
+			break;
+		case CHARGING_SLOW:
+			writeInt(2);
+			break;
+		case CHARGING_FAST:
+			writeInt(3);
+			break;
+		default:
+			writeInt(0);
+			break;
+		}
+		writeInt(tick.getBattery().getLevel());
+		writeInt(tick.getBattery().getTemperature());
+		writeInt(tick.getBattery().getLoad());
+		
+		writeInt(tick.getBattery().getDischarge());
+		writeInt(tick.getBattery().getCycleCount());
+	}
 }

@@ -71,6 +71,9 @@ public class TCPSession extends Thread {
 			case Protocol.REQUEST_DO_CLEAR_DATA:
 				processREQUEST_DO_CLEAR_DATA(reader,writer);
 				break;
+			case Protocol.REQUEST_DO_GET_BUOY_LAST_TICK:
+				processREQUEST_DO_GET_BUOY_LAST_TICK(reader,writer);
+				break;
 			default:
 				return false; // connection jammed
 			// to remove before adding anything
@@ -82,6 +85,22 @@ public class TCPSession extends Thread {
 		} catch (IOException e) {
 			return false;
 		}
+	}
+
+	private void processREQUEST_DO_GET_BUOY_LAST_TICK(TCPReader reader, TCPWriter writer) {
+		long id = reader.receiveLong();
+		BuoyData tick = model.getBuoyDataTable().getLastTick(id);
+		if(tick!=null)
+		{
+			writer.createGetLastTick(tick);
+		}
+		else{
+			writer.createKO();
+		}
+
+
+
+
 	}
 
 	private void processREQUEST_DO_CLEAR_DATA(TCPReader reader, TCPWriter writer) {

@@ -50,6 +50,11 @@ public class ServiceSession implements ISession {
             w.send();
             ServiceReader r = new ServiceReader(tcp.getInputStream());
             r.receive();
+            if(r.getType() == Protocol.REPLY_DO_GET_BUOY_LIST)
+            {
+
+            	return r.readBuoyList();
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }
@@ -67,6 +72,11 @@ public class ServiceSession implements ISession {
             w.send();
             ServiceReader r = new ServiceReader(tcp.getInputStream());
             r.receive();
+            if(r.getType() == Protocol.REPLY_DO_GET_BUOY)
+            {
+            	return r.readBuoy();
+
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }
@@ -84,6 +94,11 @@ public class ServiceSession implements ISession {
             w.send();
             ServiceReader r = new ServiceReader(tcp.getInputStream());
             r.receive();
+            if(r.getType() == Protocol.REPLY_DO_GET_BUOY_LAST_TICK)
+            {
+            	return r.readLastTick();
+
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }

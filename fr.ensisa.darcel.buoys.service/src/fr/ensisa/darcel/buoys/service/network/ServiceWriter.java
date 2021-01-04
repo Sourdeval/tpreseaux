@@ -12,12 +12,18 @@ public class ServiceWriter extends BasicAbstractWriter {
     }
 
 	public void createGetBuoyList(String who) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY_LIST);
+		writeString(who);
 	}
 
 	public void createGetBuoy(long id) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY);
+		writeLong(id);
 	}
 
 	public void createGetBuoyLastTick(long id) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY_LAST_TICK);
+		writeLong(id);
 	}
 
 }
