@@ -21,15 +21,25 @@ public class ClientWriter extends BasicAbstractWriter {
 	}
 
 	public void createGetBuoyList(String who) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY_LIST);
+		writeString(who);
 	}
 
 	public void createGetBuoy(long id) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY);
+		writeLong(id);
 	}
 
 	public void createGetBuoyLastTick(long id) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY_LAST_TICK);
+		writeLong(id);
 	}
 
 	public void createGetBuoyData(long id, boolean tick, boolean measures) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY_DATA);
+		writeLong(id);
+		writeBoolean(tick);
+		writeBoolean(measures);
 	}
 
 }

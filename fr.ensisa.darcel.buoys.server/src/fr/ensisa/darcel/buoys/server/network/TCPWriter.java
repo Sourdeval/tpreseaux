@@ -154,8 +154,87 @@ public class TCPWriter extends BasicAbstractWriter {
 		writeInt(tick.getBattery().getLevel());
 		writeInt(tick.getBattery().getTemperature());
 		writeInt(tick.getBattery().getLoad());
-		
+
 		writeInt(tick.getBattery().getDischarge());
 		writeInt(tick.getBattery().getCycleCount());
+	}
+
+	public void createGetBuoyData(Map<Long, BuoyData> buoyTable) {
+		writeInt(Protocol.REPLY_DO_GET_BUOY_DATA);
+		writeInt(buoyTable.size());
+		for (Map.Entry<Long, BuoyData> entry : buoyTable.entrySet())
+		{
+
+			writeLong(entry.getValue().getDate().getTime());
+			System.out.println(entry.getValue().getType().toString());
+			switch (entry.getValue().getType().toString()) {
+			case "TICK":
+				writeInt(1);
+				writeTick(entry);
+				break;
+			case "MEASURES":
+				writeInt(2);
+				writeMeasures(entry);
+				break;
+
+			default:
+				writeInt(0);
+				break;
+			}
+
+		}
+
+	}
+	public void writeTick(Map.Entry<Long, BuoyData> entry){
+		writeFloat(entry.getValue().getLocation().getLongitude());
+		writeFloat(entry.getValue().getLocation().getLatitude());
+		writeFloat(entry.getValue().getLocation().getAltitude());
+		writeInt(entry.getValue().getState().getState());
+		writeInt(entry.getValue().getState().getDetail());
+		switch (entry.getValue().getBattery().getPlug()) {
+		case DISCONNECTED:
+			writeInt(1);
+			break;
+		case CHARGING_SLOW:
+			writeInt(2);
+			break;
+		case CHARGING_FAST:
+			writeInt(3);
+			break;
+		default:
+			writeInt(0);
+			break;
+		}
+		writeInt(entry.getValue().getBattery().getLevel());
+		writeInt(entry.getValue().getBattery().getTemperature());
+		writeInt(entry.getValue().getBattery().getLoad());
+
+		writeInt(entry.getValue().getBattery().getDischarge());
+		writeInt(entry.getValue().getBattery().getCycleCount());
+
+	}
+	public void writeMeasures(Map.Entry<Long, BuoyData> entry){
+		writeFloat(entry.getValue().getLocation().getLongitude());
+		writeFloat(entry.getValue().getLocation().getLatitude());
+		writeFloat(entry.getValue().getLocation().getAltitude());
+		writeFloat(entry.getValue().getMeasures().getAcceleration_X());
+		writeFloat(entry.getValue().getMeasures().getAcceleration_Y());
+		writeFloat(entry.getValue().getMeasures().getAcceleration_Z());
+		writeFloat(entry.getValue().getMeasures().getRotation_X());
+		writeFloat(entry.getValue().getMeasures().getRotation_Y());
+		writeFloat(entry.getValue().getMeasures().getRotation_Z());
+		writeFloat(entry.getValue().getMeasures().getNorth());
+		writeFloat(entry.getValue().getMeasures().getTop_temperature());
+		writeFloat(entry.getValue().getMeasures().getTop_humidity());
+		writeFloat(entry.getValue().getMeasures().getTop_light());
+		writeFloat(entry.getValue().getMeasures().getTop_ir());
+		writeFloat(entry.getValue().getMeasures().getBottom_temperature());
+		writeFloat(entry.getValue().getMeasures().getBottom_humidity());
+		writeFloat(entry.getValue().getMeasures().getBottom_light());
+		writeFloat(entry.getValue().getMeasures().getBottom_ir());
+		writeFloat(entry.getValue().getMeasures().getTelemetry_front());
+		writeFloat(entry.getValue().getMeasures().getTelemetry_back());
+		writeFloat(entry.getValue().getMeasures().getTelemetry_left());
+		writeFloat(entry.getValue().getMeasures().getTelemetry_right());
 	}
 }

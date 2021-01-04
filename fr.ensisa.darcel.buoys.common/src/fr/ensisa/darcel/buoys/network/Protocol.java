@@ -33,6 +33,8 @@ public class Protocol {
     public static final int REQUEST_DO_GET_BUOY_LAST_TICK= 3009;
     public static final int REPLY_DO_GET_BUOY_LAST_TICK= 4009;
 
+    public static final int REQUEST_DO_GET_BUOY_DATA = 3010;
+    public static final int REPLY_DO_GET_BUOY_DATA = 4010;
 
     private static final int COMMON_START                = 000;
     private static final int BUOY_START                    = 100;
@@ -46,6 +48,7 @@ public class Protocol {
     public static final int UDP_STD1                    = 0x01;
     public static final int UDP_STD2                    = 0x02;
     public static final int UDP_SERVICE                    = 0x03;
+
 
 
 

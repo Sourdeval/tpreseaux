@@ -10,6 +10,7 @@ import java.util.Map;
 import fr.ensisa.darcel.buoys.network.Protocol;
 import fr.ensisa.darcel.buoys.server.model.Buoy;
 import fr.ensisa.darcel.buoys.server.model.BuoyData;
+import fr.ensisa.darcel.buoys.server.model.BuoyDataTable;
 import fr.ensisa.darcel.buoys.server.model.Buoys;
 import fr.ensisa.darcel.buoys.server.model.Model;
 import fr.ensisa.darcel.buoys.server.model.Sensors;
@@ -74,17 +75,49 @@ public class TCPSession extends Thread {
 			case Protocol.REQUEST_DO_GET_BUOY_LAST_TICK:
 				processREQUEST_DO_GET_BUOY_LAST_TICK(reader,writer);
 				break;
+			case Protocol.REQUEST_DO_GET_BUOY_DATA:
+				processREQUEST_DO_GET_BUOY_DATA(reader,writer);
+				break;
 			default:
-				return false; // connection jammed
-			// to remove before adding anything
-			// entry added to remove annoying error reported by compiler
-			//case 1:
+				return false;
 			}
 			writer.send();
 			return true;
 		} catch (IOException e) {
 			return false;
 		}
+	}
+
+	private void processREQUEST_DO_GET_BUOY_DATA(TCPReader reader, TCPWriter writer) {
+		long id = reader.receiveLong();
+		boolean tick = reader.receiveBoolean();
+		boolean measures = reader.receiveBoolean();
+		System.out.println(tick);
+		System.out.println(measures);
+
+		Map<Long, BuoyData> buoyTable = model.getBuoyDataTable().getByCriterion(id, tick, measures);
+		Map<Long,BuoyData> newBuoysTable = new HashMap<Long,BuoyData>();
+
+		for (Map.Entry<Long, BuoyData> entry : buoyTable.entrySet())
+		{
+			if(tick){
+				if(entry.getValue().isTick()){
+					newBuoysTable.put(entry.getKey(), entry.getValue());
+				}
+			}
+			if(measures){
+				if(!(entry.getValue().isTick())){
+					newBuoysTable.put(entry.getKey(), entry.getValue());
+				}
+			}
+		}
+		if(newBuoysTable != null){
+			writer.createGetBuoyData(newBuoysTable);
+		}
+		else{
+			writer.createKO();
+		}
+
 	}
 
 	private void processREQUEST_DO_GET_BUOY_LAST_TICK(TCPReader reader, TCPWriter writer) {
@@ -97,10 +130,6 @@ public class TCPSession extends Thread {
 		else{
 			writer.createKO();
 		}
-
-
-
-
 	}
 
 	private void processREQUEST_DO_CLEAR_DATA(TCPReader reader, TCPWriter writer) {
