@@ -97,27 +97,23 @@ public class TCPSession extends Thread {
 
 		Map<Long, BuoyData> buoyTable = model.getBuoyDataTable().getByCriterion(id, tick, measures);
 		Map<Long,BuoyData> newBuoysTable = new HashMap<Long,BuoyData>();
-
-		for (Map.Entry<Long, BuoyData> entry : buoyTable.entrySet())
-		{
-			if(tick){
-				if(entry.getValue().isTick()){
-					newBuoysTable.put(entry.getKey(), entry.getValue());
+		if (buoyTable != null){
+			for (Map.Entry<Long, BuoyData> entry : buoyTable.entrySet())
+			{
+				if(tick){
+					if(entry.getValue().isTick()){
+						newBuoysTable.put(entry.getKey(), entry.getValue());
+					}
+				}
+				if(measures){
+					if(!(entry.getValue().isTick())){
+						newBuoysTable.put(entry.getKey(), entry.getValue());
+					}
 				}
 			}
-			if(measures){
-				if(!(entry.getValue().isTick())){
-					newBuoysTable.put(entry.getKey(), entry.getValue());
-				}
-			}
-		}
-		if(newBuoysTable != null){
 			writer.createGetBuoyData(newBuoysTable);
 		}
-		else{
-			writer.createKO();
-		}
-
+		else writer.createKO();
 	}
 
 	private void processREQUEST_DO_GET_BUOY_LAST_TICK(TCPReader reader, TCPWriter writer) {
