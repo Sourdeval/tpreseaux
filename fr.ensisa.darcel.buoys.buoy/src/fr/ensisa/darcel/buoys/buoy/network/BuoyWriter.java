@@ -18,6 +18,8 @@ public class BuoyWriter extends BasicAbstractWriter {
     }
 
 	public void createGetBuoy(long id) {
+		writeInt(Protocol.REQUEST_DO_GET_BUOY_BUOY);
+		writeLong(id);
 	}
 
 	public void createUpdateVersion(String versionNumber) {

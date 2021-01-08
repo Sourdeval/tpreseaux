@@ -54,6 +54,9 @@ public class BuoySession implements ISession {
             w.send();
             BuoyReader r = new BuoyReader(tcp.getInputStream());
             r.receive();
+            if (r.getType() == Protocol.REPLY_DO_GET_BUOY_BUOY){
+            	return r.readBuoy();
+            }
             if (r.getType() == Protocol.REPLY_KO) {
                 return null;
             }

@@ -237,4 +237,39 @@ public class TCPWriter extends BasicAbstractWriter {
 		writeFloat(entry.getValue().getMeasures().getTelemetry_left());
 		writeFloat(entry.getValue().getMeasures().getTelemetry_right());
 	}
+
+	public void createReplyGetBuoyBuoy(Buoy buoy) {
+		writeInt(Protocol.REPLY_DO_GET_BUOY_BUOY);
+		if (buoy.getVersion()!=null){
+			writeString(buoy.getVersion());
+		}
+		else {
+			writeString("null");
+		}
+		writeString(buoy.getWho());
+		writeLong(buoy.getId());
+		switch (buoy.getUsage()) {
+		case UNUSED:
+			writeInt(1);
+			break;
+		case READY:
+			writeInt(2);
+			break;
+		case WORKING:
+			writeInt(3);
+			break;
+		case BACK:
+			writeInt(4);
+			break;
+		default:
+			writeInt(0);
+			break;
+		}
+		writeBoolean(buoy.getSensors().isSensor3DAcceleration());
+		writeBoolean(buoy.getSensors().isSensor3DRotation());
+		writeBoolean(buoy.getSensors().isSensorBottom());
+		writeBoolean(buoy.getSensors().isSensorNorth());
+		writeBoolean(buoy.getSensors().isSensorTop());
+		writeBoolean(buoy.getSensors().isSensorTelemetry());
+	}
 }

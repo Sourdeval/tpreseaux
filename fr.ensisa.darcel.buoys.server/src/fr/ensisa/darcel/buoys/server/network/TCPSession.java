@@ -78,6 +78,9 @@ public class TCPSession extends Thread {
 			case Protocol.REQUEST_DO_GET_BUOY_DATA:
 				processREQUEST_DO_GET_BUOY_DATA(reader,writer);
 				break;
+			case Protocol.REQUEST_DO_GET_BUOY_BUOY:
+				processREQUEST_DO_GET_BUOY_BUOY(reader,writer);
+				break;
 			default:
 				return false;
 			}
@@ -85,6 +88,15 @@ public class TCPSession extends Thread {
 			return true;
 		} catch (IOException e) {
 			return false;
+		}
+	}
+
+	private void processREQUEST_DO_GET_BUOY_BUOY(TCPReader reader, TCPWriter writer) {
+		Buoy buoy = model.getBuoys().getById(reader.receiveLong());
+		if (buoy != null) {
+			writer.createReplyGetBuoyBuoy(buoy);
+		} else {
+			writer.createKO();
 		}
 	}
 
