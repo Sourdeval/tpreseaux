@@ -40,6 +40,7 @@ public class Protocol {
     public static final int REPLY_DO_GET_BUOY_BUOY = 4011;
     public static final int REQUEST_DO_UPDATE_VERSION = 3012;
     public static final int REPLY_DO_UPDATE_VERSION = 4012;
+    public static final int REQUEST_DO_SEND_DATA = 3013;
 
     private static final int COMMON_START                = 000;
     private static final int BUOY_START                    = 100;

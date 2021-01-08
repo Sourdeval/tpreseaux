@@ -8,14 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 import fr.ensisa.darcel.buoys.network.Protocol;
+import fr.ensisa.darcel.buoys.server.model.Battery;
 import fr.ensisa.darcel.buoys.server.model.Buoy;
 import fr.ensisa.darcel.buoys.server.model.BuoyData;
 import fr.ensisa.darcel.buoys.server.model.BuoyDataTable;
 import fr.ensisa.darcel.buoys.server.model.Buoys;
+import fr.ensisa.darcel.buoys.server.model.Location;
+import fr.ensisa.darcel.buoys.server.model.Measures;
 import fr.ensisa.darcel.buoys.server.model.Model;
 import fr.ensisa.darcel.buoys.server.model.Sensors;
 import fr.ensisa.darcel.buoys.server.model.Usage;
 import fr.ensisa.darcel.buoys.server.model.Version;
+import fr.ensisa.darcel.buoys.server.model.Battery.Plug;
 
 public class TCPSession extends Thread {
 
@@ -84,6 +88,9 @@ public class TCPSession extends Thread {
 			case Protocol.REQUEST_DO_UPDATE_VERSION:
 				processREQUEST_DO_UPDATE_VERSION(reader,writer);
 				break;
+			case Protocol.REQUEST_DO_SEND_DATA:
+				processREQUEST_DO_SEND_DATA(reader,writer);
+				break;
 			default:
 				return false;
 			}
@@ -91,6 +98,79 @@ public class TCPSession extends Thread {
 			return true;
 		} catch (IOException e) {
 			return false;
+		}
+	}
+
+	private void processREQUEST_DO_SEND_DATA(TCPReader reader, TCPWriter writer) {
+		List<BuoyData> list = new ArrayList<BuoyData>();
+		int size = reader.receiveInt();
+		for (int i = 0; i<size; i++){
+			boolean isMeasure;
+			long date = reader.receiveLong();
+			long id = reader.receiveLong();
+			Location loc = new Location(reader.receiveFloat(),reader.receiveFloat(),reader.receiveFloat());
+			isMeasure = reader.receiveBoolean();
+			Measures m = new Measures();
+			if (isMeasure){
+				m.setAcceleration_X(reader.receiveFloat());
+				m.setAcceleration_Y(reader.receiveFloat());
+				m.setAcceleration_Z(reader.receiveFloat());
+				m.setRotation_X(reader.receiveFloat());
+				m.setRotation_Y(reader.receiveFloat());
+				m.setRotation_Z(reader.receiveFloat());
+				m.setNorth(reader.receiveFloat());
+				m.setTop_temperature(reader.receiveFloat());
+				m.setTop_humidity(reader.receiveFloat());
+				m.setTop_light(reader.receiveFloat());
+				m.setTop_ir(reader.receiveFloat());
+				m.setTelemetry_left(reader.receiveFloat());
+				m.setBottom_temperature(reader.receiveFloat());
+				m.setBottom_humidity(reader.receiveFloat());
+				m.setBottom_light(reader.receiveFloat());
+				m.setBottom_ir(reader.receiveFloat());
+				m.setTelemetry_front(reader.receiveFloat());
+				m.setTelemetry_back(reader.receiveFloat());
+				m.setTelemetry_left(reader.receiveFloat());
+				m.setTelemetry_right(reader.receiveFloat());
+			}
+			Battery b = new Battery();
+			if (reader.receiveBoolean()){
+				switch(reader.receiveInt()){
+				case 1:
+					b.setPlug(Plug.DISCONNECTED);
+					break;
+				case 2:
+					b.setPlug(Plug.CHARGING_SLOW);
+					break;
+				case 3:
+					b.setPlug(Plug.CHARGING_FAST);
+					break;
+				default:
+					break;
+				}
+				b.setLevel(reader.receiveInt());
+				b.setTemperature(reader.receiveInt());
+				b.setLoad(reader.receiveInt());
+				b.setDischarge(reader.receiveInt());
+				b.setCycleCount(reader.receiveInt());
+			}
+			fr.ensisa.darcel.buoys.server.model.State s = null;
+
+			if (reader.receiveBoolean()){
+				s = new fr.ensisa.darcel.buoys.server.model.State(reader.receiveInt(),reader.receiveInt());
+			}
+			if (isMeasure){
+				list.add(new BuoyData(date,id,loc,m));
+			}
+			else {
+				list.add(new BuoyData(date,id,loc,s,b));
+			}
+		}
+		if (list.isEmpty()){
+			writer.createKO();
+		}
+		else {
+			writer.createOK();
 		}
 	}
 

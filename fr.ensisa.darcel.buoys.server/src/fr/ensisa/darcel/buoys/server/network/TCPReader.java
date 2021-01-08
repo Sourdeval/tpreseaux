@@ -60,6 +60,9 @@ public class TCPReader extends BasicAbstractReader {
 		boolean b = readBoolean();
 		return b;
 	}
+	public float receiveFloat() {
+		return readFloat();
+	}
 
 	//Méthodes pour lire les Arguments des REQUEST
 
