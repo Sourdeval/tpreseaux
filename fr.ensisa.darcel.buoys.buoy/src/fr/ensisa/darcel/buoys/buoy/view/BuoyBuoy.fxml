@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane fx:id="pane" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensisa.darcel.buoys.buoy.view.BuoyController">
+   <left>
+      <SplitPane dividerPositions="0.07917383820998279" orientation="VERTICAL" BorderPane.alignment="CENTER">
+        <items>
+            <AnchorPane prefHeight="3.0" prefWidth="200.0">
+               <children>
+                  <Label text="Id" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                  <TextField fx:id="selectId" layoutX="59.0" layoutY="5.0" prefHeight="25.0" prefWidth="55.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="71.0" AnchorPane.topAnchor="5.0" />
+                  <Button layoutX="148.0" layoutY="5.0" mnemonicParsing="false" onAction="#handleSelect" text="Select" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="532.0" prefWidth="199.0" SplitPane.resizableWithParent="false">
+               <children>
+                  <Label layoutX="5.0" layoutY="12.0" text="Buoy Details" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="12.0" />
+                  <GridPane layoutX="70.0" layoutY="79.0" prefHeight="298.0" prefWidth="190.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="40.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="NEVER" maxWidth="186.0" minWidth="10.0" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="275.0" minWidth="10.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="275.0" minWidth="10.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="10.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="70.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="29.0" minHeight="0.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="10.0" vgrow="NEVER" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Who" />
+                        <Label layoutX="10.0" layoutY="17.0" text="Version" GridPane.rowIndex="1" />
+                        <Label text="Usage" GridPane.rowIndex="3" />
+                        <Label text="Sensors" GridPane.rowIndex="4" />
+                        <Label fx:id="buoyWho" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" />
+                        <Label fx:id="buoyVersionNumber" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="buoyUsage" layoutX="123.0" layoutY="62.0" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+                        <Label fx:id="buoySensors" layoutX="80.0" layoutY="67.0" text="Label" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
+                        <Button mnemonicParsing="false" onAction="#handleUpdate" text="Update" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label fx:id="buoyVersionContent" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </left>
+   <bottom>
+      <Label fx:id="statusLabel" text="Label" BorderPane.alignment="CENTER_LEFT">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+   </bottom>
+   <center>
+      <TabPane prefHeight="583.0" prefWidth="578.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Event List">
+               <content>
+                  <SplitPane dividerPositions="0.0668" orientation="VERTICAL" prefHeight="554.0" prefWidth="589.0">
+                    <items>
+                        <ButtonBar SplitPane.resizableWithParent="false">
+                          <buttons>
+                              <Button mnemonicParsing="false" onAction="#handleSendAllData" text="Send" />
+                              <Button mnemonicParsing="false" onAction="#handleClear" text="Clear" />
+                          </buttons>
+                        </ButtonBar>
+                        <TableView fx:id="buoyDataTable" prefHeight="516.0" prefWidth="546.0" SplitPane.resizableWithParent="false">
+                          <columns>
+                            <TableColumn fx:id="tableColumn" editable="false" prefWidth="748.0" sortable="false" text="Content" />
+                          </columns>
+                        </TableView>
+                    </items>
+                  </SplitPane>
+               </content>
+          </Tab>
+          <Tab text="Event">
+               <content>
+                  <SplitPane dividerPositions="0.0668" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+                    <items>
+                        <ButtonBar buttonMinWidth="60.0" prefHeight="41.0" prefWidth="698.0">
+                          <buttons>
+                            <Button mnemonicParsing="false" onAction="#handleRandomLocation" text="Loc" />
+                              <Button layoutX="463.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleRandomBattery" text="Bat" />
+                              <Button layoutX="378.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleRandomAccelerations" text="Acc" />
+                              <Button layoutX="378.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleRandomRotations" text="Rot" />
+                              <Button layoutX="293.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleRandomTop" text="Top" />
+                              <Button layoutX="463.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleRandomBottom" text="Bot" />
+                              <Button layoutX="487.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleRandomTelemetry" text="Tel" />
+                              <Button mnemonicParsing="false" onAction="#handleMeasures" text="Measures" />
+                              <Button mnemonicParsing="false" onAction="#handleTick" text="Tick" />
+                          </buttons>
+                        </ButtonBar>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="417.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="417.0" minHeight="0.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="417.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <TextField fx:id="buoyLatitude" GridPane.columnIndex="2" />
+                              <Label text="Latitude" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+                              <TextField fx:id="buoyLongitude" GridPane.columnIndex="4" />
+                              <Label text="Longitude" GridPane.columnIndex="3" GridPane.halignment="RIGHT" />
+                              <Label layoutX="135.0" layoutY="18.0" text="Altitude" GridPane.columnIndex="5" GridPane.halignment="RIGHT" />
+                              <Label layoutX="10.0" layoutY="18.0" text="North" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+                              <TextField fx:id="buoyAltitude" layoutX="10.0" layoutY="47.0" GridPane.columnIndex="6" />
+                              <TextField fx:id="buoySensorsGeneralNorth" layoutX="10.0" layoutY="47.0" text="45" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Label layoutX="10.0" layoutY="42.0" text="Acceleration" GridPane.rowIndex="5" />
+                              <Label layoutX="10.0" layoutY="121.0" text="Y" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                              <Label text="Z" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                              <Label text="Rotation" GridPane.rowIndex="6" />
+                              <TextField fx:id="buoySensorsGeneralAcceleration_X" layoutX="10.0" layoutY="83.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                              <TextField fx:id="buoySensorsGeneralAcceleration_Y" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                              <TextField fx:id="buoySensorsGeneralAcceleration_Z" GridPane.columnIndex="6" GridPane.rowIndex="5" />
+                              <TextField fx:id="buoySensorsGeneralRotation_X" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <TextField fx:id="buoySensorsGeneralRotation_Y" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                              <TextField fx:id="buoySensorsGeneralRotation_Z" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                              <Label layoutX="10.0" layoutY="232.0" text="Top" GridPane.rowIndex="7" />
+                              <Label layoutX="10.0" layoutY="287.0" text="Humidity" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+                              <Label text="Light" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+                              <Label text="IR" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+                              <TextField fx:id="buoySensorsTopTemperature" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                              <TextField fx:id="buoySensorsTopHumidity" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                              <TextField fx:id="buoySensorsTopLight" GridPane.columnIndex="6" GridPane.rowIndex="7" />
+                              <TextField fx:id="buoySensorsTopIR" GridPane.columnIndex="8" GridPane.rowIndex="7" />
+                              <Label text="Bottom" GridPane.rowIndex="9" />
+                              <Label text="Humidity" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+                              <Label text="Light" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+                              <Label text="IR" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+                              <TextField fx:id="buoySensorsBottomTemperature" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                              <TextField fx:id="buoySensorsBottomHumidity" GridPane.columnIndex="4" GridPane.rowIndex="9" />
+                              <TextField fx:id="buoySensorsBottomLight" GridPane.columnIndex="6" GridPane.rowIndex="9" />
+                              <TextField fx:id="buoySensorsBottomIR" GridPane.columnIndex="8" GridPane.rowIndex="9" />
+                              <Label text="Left" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
+                              <Label text="Telemetry" GridPane.rowIndex="10" />
+                              <Label text="Back" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
+                              <Label text="Right" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
+                              <TextField fx:id="buoySensorsTelemetryFront" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                              <TextField fx:id="buoySensorsTelemetryLeft" GridPane.columnIndex="6" GridPane.rowIndex="10" />
+                              <TextField fx:id="buoySensorsTelemetryRight" GridPane.columnIndex="8" GridPane.rowIndex="10" />
+                              <TextField fx:id="buoySensorsTelemetryBack" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+                              <Label text="Location" />
+                              <TextField fx:id="buoyBatteryLoad" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                              <TextField fx:id="buoyBatteryDischarge" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+                              <TextField fx:id="buoyBatteryTemperature" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label text="Battery" GridPane.rowIndex="1" />
+                              <Label text="Load" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                              <Label text="Discharge" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                              <Label text="Temperature" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                              <Label layoutX="10.0" layoutY="209.0" text="X" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+                              <Label text="Y" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+                              <Label text="Z" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+                              <Label text="X" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+                              <Label layoutX="10.0" layoutY="325.0" text="Temperature" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+                              <Label layoutX="10.0" layoutY="354.0" text="Temperature" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+                              <Label layoutX="10.0" layoutY="441.0" text="Front" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
+                              <TextField fx:id="buoyBatteryLevel" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Label text="Level" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <Label text="Plug" GridPane.columnIndex="5" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <RadioButton mnemonicParsing="false" selected="true" text="Not" GridPane.columnIndex="6" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="buoyBatteryPlug" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton mnemonicParsing="false" text="Slow" toggleGroup="$buoyBatteryPlug" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <RadioButton mnemonicParsing="false" text="Fast" toggleGroup="$buoyBatteryPlug" GridPane.columnIndex="8" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <Label text="Cycle" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                              <TextField fx:id="buoyBatteryCount" text="11" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                              <Label text="State" GridPane.rowIndex="3" />
+                              <TextField fx:id="buoyDetail" text="0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                              <TextField fx:id="buoyState" text="0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Label text="State" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                              <Label text="Details" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                    </items>
+                  </SplitPane>
+               </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+   <right>
+  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="583.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>
