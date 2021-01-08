@@ -272,4 +272,21 @@ public class TCPWriter extends BasicAbstractWriter {
 		writeBoolean(buoy.getSensors().isSensorTop());
 		writeBoolean(buoy.getSensors().isSensorTelemetry());
 	}
+
+	public void createUpdateVersion(Version v) {
+		writeInt(Protocol.REPLY_DO_UPDATE_VERSION);
+    	writeString(v.getNumber());
+    	byte [] a = v.getContent();
+    	if (a!=null){
+        	int size=a.length;
+        	writeInt(size);
+        	for(int i=0;i<size;i++)
+        	{
+        		writeByte(v.getContent()[i]);
+        	}
+    	}
+    	else {
+    		writeInt(0);
+    	}
+	}
 }

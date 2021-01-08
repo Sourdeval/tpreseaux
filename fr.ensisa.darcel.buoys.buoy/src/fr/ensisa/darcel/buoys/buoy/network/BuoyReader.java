@@ -59,4 +59,20 @@ public class BuoyReader extends BasicAbstractReader {
 		return buoy;
 	}
 
+	public Version readUpdateVersion() {
+		String number = readString();
+		int size = readInt();
+		byte[] content;
+		if (size>0){
+			content = new byte[size];
+			for (int i = 0; i < size; i++) {
+				content[i] = readByte();
+			}
+		}
+		else {
+			content = null;
+		}
+		return (new Version(number, content));
+	}
+
 }

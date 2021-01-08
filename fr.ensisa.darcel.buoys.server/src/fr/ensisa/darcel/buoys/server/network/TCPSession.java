@@ -81,6 +81,9 @@ public class TCPSession extends Thread {
 			case Protocol.REQUEST_DO_GET_BUOY_BUOY:
 				processREQUEST_DO_GET_BUOY_BUOY(reader,writer);
 				break;
+			case Protocol.REQUEST_DO_UPDATE_VERSION:
+				processREQUEST_DO_UPDATE_VERSION(reader,writer);
+				break;
 			default:
 				return false;
 			}
@@ -89,6 +92,20 @@ public class TCPSession extends Thread {
 		} catch (IOException e) {
 			return false;
 		}
+	}
+
+	private void processREQUEST_DO_UPDATE_VERSION(TCPReader reader, TCPWriter writer) {
+		String version = reader.receiveString();
+		Version versionserver = model.getLastVersion();
+		if (versionserver != null) {
+			if (!versionserver.getNumber().equals(version)){
+				writer.createUpdateVersion(versionserver);
+			}
+			else {
+				writer.createOK();
+			}
+		} else
+			writer.createKO();
 	}
 
 	private void processREQUEST_DO_GET_BUOY_BUOY(TCPReader reader, TCPWriter writer) {
